@@ -1,0 +1,7 @@
+**/.DS_Store
+**/*.o
+**/*.exe
+**/tags
+**/build
+**/a.out
+**/.vscode
