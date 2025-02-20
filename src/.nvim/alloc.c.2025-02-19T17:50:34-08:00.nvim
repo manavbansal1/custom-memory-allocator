@@ -1,0 +1,36 @@
+#include "alloc.h"
+#include <unistd.h>
+/*
+ * alloc() allocates memory from the heap. The first argument indicates the
+ * size. It returns the pointer to the newly-allocated memory. It returns NULL
+ * if there is not enough space.
+ */
+void *alloc(int size){
+  return NULL;
+}
+
+/*
+ * dealloc() frees the memory pointed to by the first argument.
+ */
+void dealloc(void *ptr){
+
+}
+
+/*
+ * allocopt() sets the options for the memory allocator.
+ *
+ * The first argument sets the algorithm. The second argument sets the size
+ * limit.
+ */
+void allocopt(enum algs algorithm, int limit){
+
+}
+
+/*
+ * allocinfo() returns the current statistics.
+ */
+struct allocinfo allocinfo(void){
+  struct allocinfo info_block = {0};
+  return info_block;
+
+}
