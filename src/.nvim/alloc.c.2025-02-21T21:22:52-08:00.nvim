@@ -7,7 +7,7 @@ static struct header *head = NULL; // Head of the linked list
    Uses -1 for No free memory block as big found
 */
 int find_first_fit(struct header *free_list_ptr, int size, void *ret) {
-  if (free_list_ptr == NULL) { // List has not been initialized yet
+  if (free_list_ptr == NULL){ // List has not been initialized yet
     ret = NULL;
     return -1;
   }
@@ -26,7 +26,7 @@ int find_first_fit(struct header *free_list_ptr, int size, void *ret) {
 // Worst Fit
 
 int find_worst_fit(struct header *head, int size, void *ret) {
-  if (head == NULL) {
+  if (head == NULL){
     ret = NULL;
     return -1;
   }
@@ -50,31 +50,33 @@ int find_worst_fit(struct header *head, int size, void *ret) {
 
 // Best fit
 
-int find_best_fit(struct header *head, int size, void *ret) {
-  if (head == NULL) { // Uninitialized Linked list
+int find_best_fit(struct header* head, int size, void *ret){
+  if (head == NULL){  // Uninitialized Linked list
     ret = NULL;
     return -1;
   }
 
-  struct header *best = NULL; // The best one found yet
-  struct header *temp = head; // For iterating through the lsit
+  struct header* best = NULL;  // The best one found yet
+  struct header* temp = head;  // For iterating through the lsit
 
-  while (temp != NULL) {
-    if (temp->size >= size) {
+  while (temp != NULL){
+    if (temp->size >= size){
       if (best == NULL)
         best = temp;
-      else if (best->size > temp->size)
+      else if(best->size > temp->size)
         best = temp;
     }
     temp = temp->next;
   }
-  if (best == NULL) {
+  if (best == NULL){
     ret = NULL;
     return -1;
-  } else {
+  }
+  else{
     ret = best;
     return 0; // GReat Success!
   }
+
 }
 /*
  * alloc() allocates memory from the heap. The first argument indicates the

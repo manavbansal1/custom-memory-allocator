@@ -1,0 +1,75 @@
+#include "alloc.h"
+#include <unistd.h>
+
+static struct header* head = NULL; // Head of the linked list
+/* First fit finder: 
+   Uses 0 for success
+   Uses -1 for No free memory block as big found
+*/
+int find_first_fit(struct header* free_list_ptr, int size, void* ret) {
+  if (free_list_ptr == NULL) // List has not been initialized yet
+    return -1;
+  struct header* temp = free_list_ptr; // Start of the List
+  while (temp != NULL)
+  {
+    if (temp->size >= size){
+      ret = temp;
+      return 0; // Great Success
+    }
+    temp = temp->next; // Move to next one
+  }
+  ret = NULL;
+  return -1; // No memory block as big found
+}
+
+int find_worst_fit (struct header * head, int size, void* ret){
+  struct header* worst = head;  // for keeping track of worst one found till that pt
+  struct header* temp = head;   // Justr to iterate through the list
+  while (temp != NULL){
+    if (worst->size < temp->size) // If current one is worst that worst
+      worst = temp;
+    
+    temp = temp->next;
+  }
+  if (worst->size >= size) // The wiorst one has size >= required size
+  {
+    ret = worst;
+    return 0;
+  }
+  ret = NULL;
+  return -1;
+}
+
+/*
+ * alloc() allocates memory from the heap. The first argument indicates the
+ * size. It returns the pointer to the newly-allocated memory. It returns NULL
+ * if there is not enough space.
+ */
+void *alloc(int size) {
+  if (size <= 0)    // Negative increment of the heap
+    return NULL;
+  
+
+
+  return NULL; }
+
+/*
+ * dealloc() frees the memory pointed to by the first argument.
+ */
+void dealloc(void *ptr) {}
+
+/*
+ * allocopt() sets the options for the memory allocator.
+ *
+ * The first argument sets the algorithm. The second argument sets the size
+ * limit.
+ */
+void allocopt(enum algs algorithm, int limit) {}
+
+/*
+ * allocinfo() returns the current statistics.
+ */
+struct allocinfo allocinfo(void) {
+  struct allocinfo info_block = {0};
+  return info_block;
+}
