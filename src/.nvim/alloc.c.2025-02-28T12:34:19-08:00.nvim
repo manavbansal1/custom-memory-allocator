@@ -144,14 +144,15 @@ void append_front(struct header *block) {
   head = block;       // Upfate head
   return;
 }
-// Function to initialize the heap if necessary
-void init_heap_if_needed() {
+//Function to initialize the heap if necessary
+void init_heap_if_needed(){
   // Initialize the Linked list if not already
   if (head == NULL) {
     start_of_heap = sbrk(0);     // Initial program break
     end_of_heap = start_of_heap; // Initially
   }
 }
+
 
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
@@ -163,14 +164,15 @@ void *alloc(int size) {
     return NULL;
 
   init_heap_if_needed();
-
+  
   // Try to get a free block
-  struct header *block = find_free_block(size);
+  struct header* block = find_free_block(size);
 
   if (block == NULL) // Required block not avialable in existing linked list
   {
-    // Extend heap and try to allocate space
+   // Extend heap and try to allocate space 
   }
+
 
   return NULL;
 }

@@ -93,18 +93,19 @@ struct header *find_best_fit(struct header *head, int size) {
   }
 }
 // A joint function for all the finding stuff
-struct header *find_free_block(int size) {
+struct header* find_free_block(int size){
 
-  switch (curr_algorithm) {
-  case FIRST_FIT:
-    return find_first_fit(head, size);
-  case BEST_FIT:
-    return find_best_fit(head, size);
-  case WORST_FIT:
-    return find_worst_fit(head, size);
-  default:
-    return find_first_fit(head, size);
+  switch(curr_algorithm){
+    case FIRST_FIT:
+      return find_first_fit(head, size);
+    case BEST_FIT:
+      return find_best_fit(head, size);
+    case WORST_FIT:
+      return find_worst_fit(head, size);
+    default:
+      return find_first_fit(head, size);
   }
+
 }
 
 // Function for removing a block from linked list
@@ -144,14 +145,6 @@ void append_front(struct header *block) {
   head = block;       // Upfate head
   return;
 }
-// Function to initialize the heap if necessary
-void init_heap_if_needed() {
-  // Initialize the Linked list if not already
-  if (head == NULL) {
-    start_of_heap = sbrk(0);     // Initial program break
-    end_of_heap = start_of_heap; // Initially
-  }
-}
 
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
@@ -161,16 +154,15 @@ void init_heap_if_needed() {
 void *alloc(int size) {
   if (size <= 0) // Negative increment of the heap
     return NULL;
-
-  init_heap_if_needed();
-
-  // Try to get a free block
-  struct header *block = find_free_block(size);
-
-  if (block == NULL) // Required block not avialable in existing linked list
-  {
-    // Extend heap and try to allocate space
+  
+  // Initialize the Linked list if not already
+  if (head == NULL){
+    start_of_heap = sbrk(0); // Initial program break
+    end_of_heap = start_of_heap; // Initially
+    
   }
+
+
 
   return NULL;
 }
