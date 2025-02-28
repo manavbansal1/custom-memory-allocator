@@ -6,7 +6,7 @@ static struct header *head = NULL; // Head of the linked list
    Uses the ptr to the header of the block for success
    Uses NULL for No free memory block as big found
 */
-struct header *find_first_fit(struct header *free_list_ptr, int size) {
+struct header* find_first_fit(struct header *free_list_ptr, int size) {
   // struct header* ret = NULL;
   if (free_list_ptr == NULL) { // List has not been initialized yet
     return NULL;
@@ -25,42 +25,36 @@ struct header *find_first_fit(struct header *free_list_ptr, int size) {
 
 // Worst Fit
 
-struct header *find_worst_fit(struct header *head, int size) {
+struct header* find_worst_fit(struct header *head, int size, void *ret) {
   if (head == NULL) {
     // ret = NULL;
     // return -1;
     return NULL;
   }
   struct header *worst =
-      NULL; // for keeping track of worst one found till that pt
+      head; // for keeping track of worst one found till that pt
   struct header *temp = head; // Justr to iterate through the list
   while (temp != NULL) {
-    if (temp->size >= size &&
-        (worst == NULL ||
-         worst->size < temp->size)) // If current one is worst that worst
-    {
+    if (worst->size < temp->size) // If current one is worst that worst
       worst = temp;
-    }
+
     temp = temp->next;
   }
-  // if (worst->size >= size) // The wiorst one has size >= required size
-  /*{
+  if (worst->size >= size) // The wiorst one has size >= required size
+  {
     // ret = worst;
     return worst;
-  }*/
-  // ret = NULL;
-  if (worst != NULL) {
-    return worst;
   }
+  // ret = NULL;
   return NULL;
 }
 
 // Best fit
 
-struct header *find_best_fit(struct header *head, int size) {
+int find_best_fit(struct header *head, int size, void *ret) {
   if (head == NULL) { // Uninitialized Linked list
-    // ret = NULL;
-    return NULL;
+    ret = NULL;
+    return -1;
   }
 
   struct header *best = NULL; // The best one found yet
@@ -76,11 +70,11 @@ struct header *find_best_fit(struct header *head, int size) {
     temp = temp->next;
   }
   if (best == NULL) {
-    // ret = NULL;
-    return NULL;
+    ret = NULL;
+    return -1;
   } else {
-    // ret = best;
-    return best; // GReat Success!
+    ret = best;
+    return 0; // GReat Success!
   }
 }
 /*
