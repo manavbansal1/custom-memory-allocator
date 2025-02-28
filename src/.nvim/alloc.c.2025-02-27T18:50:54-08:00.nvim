@@ -1,16 +1,7 @@
-#define _POSIX_C_SOURCE 200809L
-#define _GNU_SOURCE 1 // Took Google's help to find the src of err for sbrk
 #include "alloc.h"
 #include <unistd.h>
 
 static struct header *head = NULL; // Head of the linked list
-static void *start_of_heap = NULL; // for address of initial porogram break
-static void *end_of_heap =
-    NULL; // for address of the current program break in the memory layout
-
-// USed Google's help to find the way to deal with enums and declare variables
-static enum algs curr_algorithm = FIRST_FIT; // Defualt
-static int system_limit = 0;
 /* finder alogorithms:
    Uses the ptr to the header of the block for success
    Uses NULL for No free memory block as big found
@@ -153,31 +144,8 @@ void dealloc(void *ptr) {}
  *
  * The first argument sets the algorithm. The second argument sets the size
  * limit.
- * Calling allocpt() should should serve as a reset pt.
  */
-void allocopt(enum algs algorithm, int limit) {
-
-  // Reset teh program break
-  if (start_of_heap != NULL &&
-      end_of_heap != NULL) // Some alloc or dealloc has taken place already
-  {
-    // CAsting into char * because char = 1 byte so we can have the end and
-    // first end
-    intptr_t num_bytes =
-        (char *)end_of_heap - (char *)start_of_heap; // Got the amount of bytes
-                                                     // used in the heap
-    if (num_bytes > 0)
-      sbrk(-num_bytes); // Increment the break by -num_bytes (decrement)
-  }
-  // Reset the variable internally used
-  head = NULL;
-  end_of_heap = NULL;
-  start_of_heap = NULL;
-
-  // Set the algo and limit to the params
-  system_limit = limit;
-  curr_algorithm = algorithm;
-}
+void allocopt(enum algs algorithm, int limit) {}
 
 /*
  * allocinfo() returns the current statistics.
