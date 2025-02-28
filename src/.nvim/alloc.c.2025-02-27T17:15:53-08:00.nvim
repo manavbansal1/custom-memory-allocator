@@ -88,30 +88,29 @@ struct header *find_best_fit(struct header *head, int size) {
 // void function : Removes the block from free linked list
 // does nothing if block not found or the list is empty
 
-void remove_block(struct header *block) {
+void remove_block(struct header* block){
   if (head == NULL) // Empty Linked Lsit: Do nmothing and return
-  {
-    return;
-  }
-
+  { return; } 
+  
   // Case when the head is the block to be removed
-  if (head == block) {
+  if (head == block){
     head = head->next; // Just move the head to the next pozs
-    return;            // DOne!
+    return; // DOne!
   }
 
-  struct header *temp = head;
-  while (temp != NULL) {       // Till the end of ythe linked list
-    if (temp->next == block) { // If the mnext blcok is thye one to remove
-      break;
-    }
+  struct header* temp = head;
+  while (temp != NULL){ // Till the end of ythe linked list
+    if (temp->next == block){ // If the mnext blcok is thye one to remove 
+      break;}
     temp = temp->next;
   }
 
-  if (temp != NULL) {
+  if (temp!= NULL){
     temp->next = block->next;
   }
+  
 }
+
 
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
