@@ -116,9 +116,9 @@ void remove_block(struct header *block) {
 // Funxtion to append a newly freed block into the linked list
 // void function: Appends at the front on the list
 
-void append_front(struct header *block) {
-  block->next = head; // block->points to the prev head
-  head = block;       // Upfate head
+void append_front(struct header* block){
+  block->next = head;   // block->points to the prev head
+  head = block; // Upfate head
   return;
 }
 
