@@ -195,8 +195,8 @@ void coalesce_blocks() { // Accepts the new incoming block
     return;
 
   int coalesced;
-
-  do {
+  
+  do{
     coalesced = 0;
 
     struct header *temp = head; // for iterating
@@ -204,29 +204,28 @@ void coalesce_blocks() { // Accepts the new incoming block
       struct header *block = head;
       while (block != NULL) {
         if (temp != block) {
-          char *end1 = (char *)temp + temp->size;
+          char *end1 = (char *)temp +  temp->size;
           // void * end2 = (void*)block - sizeof(struct header) - block->size;
-          if (end1 == (char *)block) { // We have it order block <- temp
+          if (end1 == (char*)block) { // We have it order block <- temp
             temp->size += block->size; // Make their sizes equal
             remove_block(block);
             coalesced = 1; // Setting coalesced to true
             // temp = head; // start looking again
-            break; // break inner loop as block is now invalid
+            break; //break inner loop as block is now invalid
           }
         }
         block = block->next;
-
-        // if (block == NULL) // No coalescing
+        
+        //if (block == NULL) // No coalescing
         //{
-        // temp = temp->next; // Move to next one
+          //temp = temp->next; // Move to next one
         //}
       }
-      if (coalesced) {
-        break;
-      }
+      if (coalesced)
+      {  break; }
       temp = temp->next;
     }
-  } while (coalesced);
+  } while(coalesced);
 }
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
@@ -282,7 +281,7 @@ void dealloc(void *ptr) {
   // Extracting the header from block
   struct header *block = (struct header *)((char *)ptr - sizeof(struct header));
   append_front(block); // Append the newly freed block to the front
-  coalesce_blocks();   // Uncomment Later
+  // coalesce_blocks();   // Uncomment Later
 }
 
 /*
