@@ -246,10 +246,10 @@ void *alloc(int size) {
   remove_block(block); // Remove the block if found in the free list
 
   // Need logic if need to split the block
-  if (block->size > size_with_header + sizeof(struct header)) {
-
+  if (block->size > size_with_header + sizeof(struct header)){
+    
     int size_of_new = block->size - size_with_header;
-    struct header *nb = (struct header *)((char *)block + size_with_header);
+    struct header* nb = (struct header*)((char*)block + size_with_header);
     nb->next = NULL;
     nb->size = size_of_new;
 

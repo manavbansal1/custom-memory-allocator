@@ -231,14 +231,13 @@ void *alloc(int size) {
 
   init_heap_if_needed();
 
-  int size_with_header = size + sizeof(struct header);
   // Try to get a free block
-  struct header *block = find_free_block(size_with_header);
+  struct header *block = find_free_block(size + sizeof(struct header));
 
   if (block == NULL) // Required block not avialable in existing linked list
   {
     // Extend heap and try to allocate space
-    block = extend_heap(size_with_header);
+    block = extend_heap(size + sizeof(struct header));
     if (block == NULL) // Increasing the limit failed as well
       return NULL;
   }
@@ -246,16 +245,6 @@ void *alloc(int size) {
   remove_block(block); // Remove the block if found in the free list
 
   // Need logic if need to split the block
-  if (block->size > size_with_header + sizeof(struct header)) {
-
-    int size_of_new = block->size - size_with_header;
-    struct header *nb = (struct header *)((char *)block + size_with_header);
-    nb->next = NULL;
-    nb->size = size_of_new;
-
-    block->size = size_with_header;
-    append_front(nb);
-  }
 
   return (void *)((char *)block + sizeof(struct header));
 }
