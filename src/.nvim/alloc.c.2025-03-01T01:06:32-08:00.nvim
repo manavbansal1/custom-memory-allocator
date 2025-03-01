@@ -179,7 +179,7 @@ struct header *extend_heap(int num_bytes) {
 
   // Although in Class we did size = size + headersize
   // I am using just the size for simplicity purpose
-  block->size = num_of_bytes_request; // - sizeof(struct header);
+  block->size = num_of_bytes_request - sizeof(struct header);
   block->next = NULL;
 
   append_front(block); // Add to the free list
@@ -232,7 +232,7 @@ void *alloc(int size) {
   init_heap_if_needed();
 
   // Try to get a free block
-  struct header *block = find_free_block(size + sizeof(struct header));
+  struct header *block = find_free_block(size);
 
   if (block == NULL) // Required block not avialable in existing linked list
   {
@@ -263,7 +263,7 @@ void dealloc(void *ptr) {
   // Extracting the header from block
   struct header *block = (struct header *)((char *)ptr - sizeof(struct header));
   append_front(block); // Append the newly freed block to the front
-  // coalesce_blocks();   // Uncomment Later
+  coalesce_blocks();
 }
 
 /*
@@ -302,29 +302,5 @@ void allocopt(enum algs algorithm, int limit) {
  */
 struct allocinfo allocinfo(void) {
   struct allocinfo info_block = {0};
-
-  info_block.free_size = 0;
-  info_block.free_chunks = 0;
-  info_block.largest_free_chunk_size = 0;
-  info_block.smallest_free_chunk_size = UINT64_MAX;
-
-  struct header *temp = head;
-
-  while (temp != NULL) {
-    info_block.free_chunks = info_block.free_chunks + 1;
-    info_block.free_size = info_block.free_size + temp->size;
-    if (temp->size > info_block.largest_free_chunk_size) {
-      info_block.largest_free_chunk_size = temp->size;
-    }
-    if (temp->size < info_block.smallest_free_chunk_size) {
-      info_block.smallest_free_chunk_size = temp->size;
-    }
-    temp = temp->next;
-  }
-
-  if (info_block.free_chunks == 0) { // Edge case when list is empty
-    info_block.smallest_free_chunk_size = 0;
-  }
-
   return info_block;
 }
