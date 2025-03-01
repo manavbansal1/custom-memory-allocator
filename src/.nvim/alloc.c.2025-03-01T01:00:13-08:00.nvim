@@ -196,26 +196,29 @@ void coalesce_blocks() { // Accepts the new incoming block
 
   struct header *temp = head; // for iterating
   while (temp != NULL) {
-    struct header *block = head;
+    struct header * block = head;
 
-    while (block != NULL) {
-      if (temp != block) {
-        void *end1 = (void *)temp + sizeof(struct header) + temp->size;
+    while(block != NULL)
+    {
+      if (temp != block){
+        void * end1 = (void*)temp + sizeof(struct header) + temp->size;
         // void * end2 = (void*)block - sizeof(struct header) - block->size;
-        if (end1 == block) { // We have it order block <- temp
+        if (end1 == block){ // We have it order block <- temp
           temp->size += sizeof(struct header) + block->size;
           remove_block(block);
 
           temp = head; // start looking again
           break;
+
         }
         block = block->next;
-      }
+    }
+    
+    if (block == NULL) // No coalescing
+    {
+      temp = temp->next; // Move to next one
+    }
 
-      if (block == NULL) // No coalescing
-      {
-        temp = temp->next; // Move to next one
-      }
     }
   }
 }

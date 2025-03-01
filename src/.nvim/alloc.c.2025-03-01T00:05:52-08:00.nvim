@@ -189,36 +189,6 @@ struct header *extend_heap(int num_bytes) {
 
   return block; // The free block that is avialable to be allocated
 }
-// Function to coalsce the two adjacent blocks
-void coalesce_blocks() { // Accepts the new incoming block
-  if (start_of_heap == NULL || head == NULL || head->next == NULL)
-    return;
-
-  struct header *temp = head; // for iterating
-  while (temp != NULL) {
-    struct header *block = head;
-
-    while (block != NULL) {
-      if (temp != block) {
-        void *end1 = (void *)temp + sizeof(struct header) + temp->size;
-        // void * end2 = (void*)block - sizeof(struct header) - block->size;
-        if (end1 == block) { // We have it order block <- temp
-          temp->size += sizeof(struct header) + block->size;
-          remove_block(block);
-
-          temp = head; // start looking again
-          break;
-        }
-        block = block->next;
-      }
-
-      if (block == NULL) // No coalescing
-      {
-        temp = temp->next; // Move to next one
-      }
-    }
-  }
-}
 
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
@@ -253,17 +223,15 @@ void *alloc(int size) {
  * dealloc() frees the memory pointed to by the first argument.
  */
 void dealloc(void *ptr) {
-
-  if (ptr == NULL ||
-      start_of_heap ==
-          NULL) { // NULL passes as argue,emt or heap not initialized
-    return;       // Do nothing as the call is not valid
+  
+  if (ptr == NULL || start_of_heap == NULL){  // NULL passes as argue,emt or heap not initialized
+    return; // Do nothing as the call is not valid
   }
 
   // Extracting the header from block
-  struct header *block = (struct header *)((char *)ptr - sizeof(struct header));
+  struct header* block = (struct header*) ((char*)ptr - sizeof(struct header));
   append_front(block); // Append the newly freed block to the front
-  coalesce_blocks();
+
 }
 
 /*
