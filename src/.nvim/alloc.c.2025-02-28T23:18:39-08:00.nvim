@@ -169,26 +169,26 @@ struct header *extend_heap(int num_bytes) {
 
   // Extending the heap using sbrk
 
-  void *new_block = sbrk(num_of_bytes_request);
-  if (new_block == (void *)-1) { // If sbrk fails it returns -1
+  void * new_block = sbrk(num_of_bytes_request);
+  if (new_block == (void*)-1){  // If sbrk fails it returns -1
     return NULL;
   }
-
-  struct header *block =
-      (struct header *)end_of_heap; // Creating a header for newly alloc memory
-
-  // Although in Class we did size = size + headersize
+  
+  struct header* block = (struct header*)end_of_heap;  // Creating a header for newly alloc memory
+  
+  // Although in Class we did size = size + headersize 
   // I am using just the size for simplicity purpose
   block->size = num_of_bytes_request - sizeof(struct header);
   block->next = NULL;
 
-  append_front(block); // Add to the free list
+  append_front(block);  // Add to the free list
 
   // Updating the heap end
-  end_of_heap = (char *)end_of_heap + num_of_bytes_request;
+  end_of_heap = (char*)end_of_heap + num_of_bytes_request;
 
-  return block; // The free block that is avialable to be allocated
+  return block;  // The free block that is avialable to be allocated
 }
+
 
 /*
  * alloc() allocates memory from the heap. The first argument indicates the

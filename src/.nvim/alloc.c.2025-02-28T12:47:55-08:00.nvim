@@ -152,44 +152,14 @@ void init_heap_if_needed() {
     end_of_heap = start_of_heap; // Initially
   }
 }
-
-// A function to extend heap when no free blcok in linked list is found
-// returns NULL if it fails due to some reason
-
-struct header *extend_heap(int num_bytes) {
+struct header* extend_heap (int num_bytes){
   int num_of_increments_required = (num_bytes + INCREMENT - 1) / INCREMENT;
   int num_of_bytes_request = num_of_increments_required * INCREMENT;
+  
+  if (system_limit > 0 ){
 
-  // If the requirement exceds the limit set by the user
-  if (system_limit > 0 &&
-      (uint64_t)((char *)end_of_heap - (char *)start_of_heap +
-                 num_of_bytes_request) > (uint64_t)system_limit) {
-    return NULL; // Return NULL : Request failed due to the limit
   }
-
-  // Extending the heap using sbrk
-
-  void *new_block = sbrk(num_of_bytes_request);
-  if (new_block == (void *)-1) { // If sbrk fails it returns -1
-    return NULL;
-  }
-
-  struct header *block =
-      (struct header *)end_of_heap; // Creating a header for newly alloc memory
-
-  // Although in Class we did size = size + headersize
-  // I am using just the size for simplicity purpose
-  block->size = num_of_bytes_request - sizeof(struct header);
-  block->next = NULL;
-
-  append_front(block); // Add to the free list
-
-  // Updating the heap end
-  end_of_heap = (char *)end_of_heap + num_of_bytes_request;
-
-  return block; // The free block that is avialable to be allocated
 }
-
 /*
  * alloc() allocates memory from the heap. The first argument indicates the
  * size. It returns the pointer to the newly-allocated memory. It returns NULL
@@ -207,16 +177,9 @@ void *alloc(int size) {
   if (block == NULL) // Required block not avialable in existing linked list
   {
     // Extend heap and try to allocate space
-    block = extend_heap(size + sizeof(struct header));
-    if (block == NULL) // Increasing the limit failed as well
-      return NULL;
   }
 
-  remove_block(block); // Remove the block if found in the free list
-
-  // Need logic if need to split the block
-
-  return (void *)((char *)block + sizeof(struct header));
+  return NULL;
 }
 
 /*
