@@ -260,9 +260,7 @@ void *alloc(int size) {
     // Extend heap and try to allocate space
     block = extend_heap(size_with_header);
     if (block == NULL) // Increasing the limit failed as well
-    {
-      return NULL;
-    }
+    {return NULL;}
   } else {
     remove_block(block);
   } // Remove the block if found in the free list
@@ -307,15 +305,14 @@ void dealloc(void *ptr) {
 void allocopt(enum algs algorithm, int limit) {
 
   // Reset teh program break
-  if (start_of_heap != NULL &&
-      size_of_heap > 0) // Some alloc or dealloc has taken place already
+  if (start_of_heap != NULL && size_of_heap > 0) // Some alloc or dealloc has taken place already
   {
     // CAsting into char * because char = 1 byte so we can have the end and
     // first end
-    // intptr_t num_bytes =
-    //  (char *)end_of_heap - (char *)start_of_heap; // Got the amount of bytes
-    // used in the heap
-    // if (num_bytes > 0)
+    //intptr_t num_bytes =
+      //  (char *)end_of_heap - (char *)start_of_heap; // Got the amount of bytes
+                                                     // used in the heap
+    //if (num_bytes > 0)
     sbrk(-size_of_heap); // Increment the break by -num_bytes (decrement)
   }
   // Reset the variable internally used

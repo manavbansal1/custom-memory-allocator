@@ -185,7 +185,7 @@ struct header *extend_heap(int num_bytes) {
 
   // Updating the heap end
   end_of_heap = (char *)end_of_heap + INCREMENT;
-  //+ num_of_bytes_request;
+    //+ num_of_bytes_request;
   size_of_heap += INCREMENT;
   return block; // The free block that is avialable to be allocated
 }
@@ -260,10 +260,9 @@ void *alloc(int size) {
     // Extend heap and try to allocate space
     block = extend_heap(size_with_header);
     if (block == NULL) // Increasing the limit failed as well
-    {
       return NULL;
-    }
   } else {
+
     remove_block(block);
   } // Remove the block if found in the free list
 
@@ -308,20 +307,19 @@ void allocopt(enum algs algorithm, int limit) {
 
   // Reset teh program break
   if (start_of_heap != NULL &&
-      size_of_heap > 0) // Some alloc or dealloc has taken place already
+      end_of_heap != NULL) // Some alloc or dealloc has taken place already
   {
     // CAsting into char * because char = 1 byte so we can have the end and
     // first end
-    // intptr_t num_bytes =
-    //  (char *)end_of_heap - (char *)start_of_heap; // Got the amount of bytes
-    // used in the heap
-    // if (num_bytes > 0)
-    sbrk(-size_of_heap); // Increment the break by -num_bytes (decrement)
+    intptr_t num_bytes =
+        (char *)end_of_heap - (char *)start_of_heap; // Got the amount of bytes
+                                                     // used in the heap
+    if (num_bytes > 0)
+      sbrk(-num_bytes); // Increment the break by -num_bytes (decrement)
   }
   // Reset the variable internally used
   head = NULL;
   start_of_heap = sbrk(0);
-  size_of_heap = 0;
   end_of_heap = start_of_heap;
 
   // Set the algo and limit to the params
