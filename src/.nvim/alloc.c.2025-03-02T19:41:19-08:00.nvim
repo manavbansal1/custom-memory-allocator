@@ -124,11 +124,10 @@ void remove_block(struct header *block) {
   }
 
   struct header *temp = head;
-  while (temp != NULL &&
-         temp->next != block) { // Till the end of ythe linked list
-    //    if (temp->next == block) { // If the mnext blcok is thye one to remove
-    //      break;
-    //    }
+  while (temp != NULL && temp->next != block) {       // Till the end of ythe linked list
+//    if (temp->next == block) { // If the mnext blcok is thye one to remove
+//      break;
+//    }
     temp = temp->next;
   }
 
@@ -192,14 +191,13 @@ struct header *extend_heap(int num_bytes) {
 }
 // Function to coalsce the two adjacent blocks
 void coalesce_blocks() { // Accepts the new incoming block
-  if (head == NULL || head->next == NULL) {
-    return;
-  }
+  if (head == NULL || head->next == NULL){
+    return;}
 
   int coalesced;
 
   do {
-    coalesced = 0; // FLag for coalescing
+    coalesced = 0;  // FLag for coalescing
 
     struct header *temp = head; // for iterating
     while (temp != NULL) {

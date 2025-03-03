@@ -124,11 +124,10 @@ void remove_block(struct header *block) {
   }
 
   struct header *temp = head;
-  while (temp != NULL &&
-         temp->next != block) { // Till the end of ythe linked list
-    //    if (temp->next == block) { // If the mnext blcok is thye one to remove
-    //      break;
-    //    }
+  while (temp != NULL) {       // Till the end of ythe linked list
+    if (temp->next == block) { // If the mnext blcok is thye one to remove
+      break;
+    }
     temp = temp->next;
   }
 
@@ -192,14 +191,13 @@ struct header *extend_heap(int num_bytes) {
 }
 // Function to coalsce the two adjacent blocks
 void coalesce_blocks() { // Accepts the new incoming block
-  if (head == NULL || head->next == NULL) {
+  if (start_of_heap == NULL || head == NULL || head->next == NULL)
     return;
-  }
 
   int coalesced;
 
   do {
-    coalesced = 0; // FLag for coalescing
+    coalesced = 0;
 
     struct header *temp = head; // for iterating
     while (temp != NULL) {
@@ -344,12 +342,10 @@ struct allocinfo allocinfo(void) {
     info_block.free_chunks = info_block.free_chunks + 1;
     info_block.free_size =
         info_block.free_size + temp->size - sizeof(struct header);
-    if (temp->size - sizeof(struct header) >
-        info_block.largest_free_chunk_size) {
+    if (temp->size - sizeof(struct header) > info_block.largest_free_chunk_size) {
       info_block.largest_free_chunk_size = temp->size - sizeof(struct header);
     }
-    if (temp->size - sizeof(struct header) <
-        info_block.smallest_free_chunk_size) {
+    if (temp->size - sizeof(struct header) < info_block.smallest_free_chunk_size) {
       info_block.smallest_free_chunk_size = temp->size - sizeof(struct header);
     }
     temp = temp->next;
