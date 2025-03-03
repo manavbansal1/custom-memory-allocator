@@ -1,0 +1,10 @@
+{"version": 2, "width": 187, "height": 49, "timestamp": 1741044916, "idle_time_limit": 5.0, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}}
+[0.045261, "o", "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                                                          \r \r"]
+[0.045535, "o", "\u001b]2;cmpt201@fb9d060b4338:~/units/04-long-assignments/a9-manavbansal1\u0007\u001b]1;..-manavbansal1\u0007"]
+[0.046292, "o", "\u001b]7;file://fb9d060b4338/home/cmpt201/units/04-long-assignments/a9-manavbansal1\u001b\\"]
+[0.0527, "o", "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[35m[recording] \u001b[34m~/units/04-long-assignments/a9-manavbansal1\u001b[32m❯\u001b[39m \u001b[K"]
+[0.052766, "o", "\u001b[?1h\u001b=\u001b[?2004h"]
+[1.339316, "i", "c"]
+[1.343302, "o", "c"]
+[1.346999, "o", "\b\u001b[1m\u001b[31mc\u001b[0m\u001b[39m"]
+[1.347303, "o", "\b\u001b[1m\u001b[31mc\u001b[0m\u001b[39m\u001b[92mat src/alloc.c -n\u001b[39m\u001b[17D"]
