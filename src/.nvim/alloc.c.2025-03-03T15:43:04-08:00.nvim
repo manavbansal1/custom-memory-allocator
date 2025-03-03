@@ -278,7 +278,7 @@ void *alloc(int size) {
     block->size = size_with_header;
     // append_front(nb);
   }
-  block->next = NULL;
+
   return (void *)((char *)block + sizeof(struct header));
 }
 

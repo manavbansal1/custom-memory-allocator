@@ -272,13 +272,13 @@ void *alloc(int size) {
 
     // int size_of_new = block->size - size_with_header;
     struct header *nb = (struct header *)((char *)block + size_with_header);
-    nb->next = head;
+    nb->next = NULL;
     nb->size = block->size - size_with_header;
-    head = nb;
+
     block->size = size_with_header;
-    // append_front(nb);
+    append_front(nb);
   }
-  block->next = NULL;
+
   return (void *)((char *)block + sizeof(struct header));
 }
 
