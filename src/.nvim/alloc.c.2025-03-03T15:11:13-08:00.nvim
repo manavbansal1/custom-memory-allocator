@@ -341,8 +341,7 @@ struct allocinfo allocinfo(void) {
     if (actual_size > info_block.largest_free_chunk_size) {
       info_block.largest_free_chunk_size = actual_size;
     }
-    if (info_block.smallest_free_chunk_size ||
-        actual_size < info_block.smallest_free_chunk_size) {
+    if (info_block.smallest_free_chunk_size || actual_size < info_block.smallest_free_chunk_size) {
       info_block.smallest_free_chunk_size = actual_size;
     }
     temp = temp->next;

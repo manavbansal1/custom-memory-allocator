@@ -58,9 +58,9 @@ struct header *find_worst_fit(struct header *head, int size) {
     return worst;
   }*/
   // ret = NULL;
-  /*  if (worst != NULL) {
-      return worst;
-    }*/
+/*  if (worst != NULL) {
+    return worst;
+  }*/
   return worst;
 }
 
@@ -111,7 +111,7 @@ struct header *find_free_block(int size) {
 // does nothing if block not found or the list is empty
 
 void remove_block(struct header *block) {
-  if (head == NULL) { // Empty Linked Lsit: Do nmothing and return
+  if (head == NULL){ // Empty Linked Lsit: Do nmothing and return
     return;
   }
 
@@ -158,7 +158,7 @@ void init_heap_if_needed() {
 struct header *extend_heap(int num_bytes) {
   int num_of_increments_required = (num_bytes + INCREMENT - 1) / INCREMENT;
   int num_of_bytes_request = num_of_increments_required * INCREMENT;
-  uint64_t current_size = (char *)end_of_heap - (char *)start_of_heap;
+  uint64_t current_size = (char *)end_of_heap - (char *)start_of_heap; 
   // If the requirement exceds the limit set by the user
   if (system_limit > 0 && ((current_size + INCREMENT) > system_limit)) {
     return NULL; // Return NULL : Request failed due to the limit
@@ -255,10 +255,10 @@ void *alloc(int size) {
     block = extend_heap(size_with_header);
     if (block == NULL) // Increasing the limit failed as well
       return NULL;
-  } else {
+  }
+  else{
 
-    remove_block(block);
-  } // Remove the block if found in the free list
+  remove_block(block);} // Remove the block if found in the free list
 
   // Need logic if need to split the block
   if (block->size > size_with_header + sizeof(struct header)) {
@@ -281,7 +281,7 @@ void *alloc(int size) {
 void dealloc(void *ptr) {
 
   if (ptr == NULL) { // NULL passes as argue,emt or heap not initialized
-    return;          // Do nothing as the call is not valid
+    return;       // Do nothing as the call is not valid
   }
 
   // Extracting the header from block
@@ -313,8 +313,8 @@ void allocopt(enum algs algorithm, int limit) {
   }
   // Reset the variable internally used
   head = NULL;
-  start_of_heap = sbrk(0);
-  end_of_heap = start_of_heap;
+  end_of_heap = NULL;
+  start_of_heap = NULL;
 
   // Set the algo and limit to the params
   system_limit = limit;
@@ -327,31 +327,32 @@ void allocopt(enum algs algorithm, int limit) {
 struct allocinfo allocinfo(void) {
   struct allocinfo info_block = {0};
 
-  /*info_block.free_size = 0;
+  info_block.free_size = 0;
   info_block.free_chunks = 0;
   info_block.largest_free_chunk_size = 0;
   info_block.smallest_free_chunk_size = UINT64_MAX;
-*/
+
   struct header *temp = head;
 
   while (temp != NULL) {
-    uint64_t actual_size = temp->size - sizeof(struct header);
-    info_block.free_chunks++;
-    info_block.free_size += actual_size;
-    if (actual_size > info_block.largest_free_chunk_size) {
-      info_block.largest_free_chunk_size = actual_size;
+    info_block.free_chunks = info_block.free_chunks + 1;
+    info_block.free_size =
+        info_block.free_size + temp->size - sizeof(struct header);
+    if (temp->size - sizeof(struct header) >
+        info_block.largest_free_chunk_size) {
+      info_block.largest_free_chunk_size = temp->size - sizeof(struct header);
     }
-    if (info_block.smallest_free_chunk_size ||
-        actual_size < info_block.smallest_free_chunk_size) {
-      info_block.smallest_free_chunk_size = actual_size;
+    if (temp->size - sizeof(struct header) <
+        info_block.smallest_free_chunk_size) {
+      info_block.smallest_free_chunk_size = temp->size - sizeof(struct header);
     }
     temp = temp->next;
   }
 
-  /*if (info_block.free_chunks == 0) { // Edge case when list is empty
+  if (info_block.free_chunks == 0) { // Edge case when list is empty
     info_block.smallest_free_chunk_size = 0;
     info_block.largest_free_chunk_size = 0;
-  }*/
+  }
 
   return info_block;
 }

@@ -327,31 +327,32 @@ void allocopt(enum algs algorithm, int limit) {
 struct allocinfo allocinfo(void) {
   struct allocinfo info_block = {0};
 
-  /*info_block.free_size = 0;
+  info_block.free_size = 0;
   info_block.free_chunks = 0;
   info_block.largest_free_chunk_size = 0;
   info_block.smallest_free_chunk_size = UINT64_MAX;
-*/
+
   struct header *temp = head;
 
   while (temp != NULL) {
-    uint64_t actual_size = temp->size - sizeof(struct header);
-    info_block.free_chunks++;
-    info_block.free_size += actual_size;
-    if (actual_size > info_block.largest_free_chunk_size) {
-      info_block.largest_free_chunk_size = actual_size;
+    info_block.free_chunks = info_block.free_chunks + 1;
+    info_block.free_size =
+        info_block.free_size + temp->size - sizeof(struct header);
+    if (temp->size - sizeof(struct header) >
+        info_block.largest_free_chunk_size) {
+      info_block.largest_free_chunk_size = temp->size - sizeof(struct header);
     }
-    if (info_block.smallest_free_chunk_size ||
-        actual_size < info_block.smallest_free_chunk_size) {
-      info_block.smallest_free_chunk_size = actual_size;
+    if (temp->size - sizeof(struct header) <
+        info_block.smallest_free_chunk_size) {
+      info_block.smallest_free_chunk_size = temp->size - sizeof(struct header);
     }
     temp = temp->next;
   }
 
-  /*if (info_block.free_chunks == 0) { // Edge case when list is empty
+  if (info_block.free_chunks == 0) { // Edge case when list is empty
     info_block.smallest_free_chunk_size = 0;
     info_block.largest_free_chunk_size = 0;
-  }*/
+  }
 
   return info_block;
 }
