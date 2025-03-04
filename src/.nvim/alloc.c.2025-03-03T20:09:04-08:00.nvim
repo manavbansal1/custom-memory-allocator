@@ -285,7 +285,7 @@ void dealloc(void *ptr) {
 void allocopt(enum algs algorithm, int limit) {
 
   // Reset teh program break
-  if (start_of_heap != NULL && size_of_heap > 0) {
+  if (start_of_heap != NULL && size_of_heap > 0){
     // Some alloc or dealloc has taken place already
     sbrk(-size_of_heap); // Increment the break by -num_bytes (decrement)
   }
@@ -294,7 +294,7 @@ void allocopt(enum algs algorithm, int limit) {
   start_of_heap = sbrk(0);
   head = NULL;
   size_of_heap = 0;
-
+ 
   // Set the algo and limit to the params
   system_limit = limit;
   curr_algorithm = algorithm;
@@ -326,7 +326,7 @@ struct allocinfo allocinfo(void) {
     temp = temp->next;
   }
 
-  if (info_block.free_chunks == 0) {
+  if (info_block.free_chunks == 0) { 
     // Edge case when list is empty
     info_block.smallest_free_chunk_size = 0;
     info_block.largest_free_chunk_size = 0;
