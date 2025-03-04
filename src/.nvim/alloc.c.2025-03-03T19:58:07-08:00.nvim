@@ -64,8 +64,8 @@ struct header *find_best_fit(struct header *head, int size) {
 
   while (temp != NULL) {
     if (temp->size >= size) {
-      if (best == NULL || best->size > temp->size) {
-        best = temp;
+      if (best == NULL || best->size > temp->size){
+      best = temp;
       }
     }
     temp = temp->next;
@@ -104,7 +104,7 @@ void remove_block(struct header *block) {
   }
 
   struct header *temp = head;
-  while (temp != NULL && temp->next != block) {
+  while (temp != NULL && temp->next != block) { 
     // Till the end of ythe linked list
     temp = temp->next;
   }
@@ -114,6 +114,7 @@ void remove_block(struct header *block) {
   }
 }
 
+
 // Funxtion to append a newly freed block into the linked list
 // void function: Appends at the front on the list
 void append_front(struct header *block) {
@@ -121,23 +122,25 @@ void append_front(struct header *block) {
   head = block;       // Upfate head
 }
 
+
 // Function to initialize the heap if necessary
 void init_heap_if_needed() {
   // Initialize the Linked list if not already
   if (head == NULL) {
-    start_of_heap = sbrk(0); // Initial program break
-    // end_of_heap = start_of_heap; // Initially
+    start_of_heap = sbrk(0);     // Initial program break
+    // end_of_heap = start_of_heap; // Initially 
     // Above end_of_heap no longer needed
     size_of_heap = 0;
   }
 }
+
 
 // A function to extend heap when no free blcok in linked list is found
 // returns NULL if it fails due to some reason
 struct header *extend_heap(int num_bytes) {
   // int num_of_increments_required = (num_bytes + INCREMENT - 1) / INCREMENT;
   // int num_of_bytes_request = num_of_increments_required * INCREMENT;
-
+  
   // If the requirement exceds the limit set by the user
   if (system_limit > 0 && size_of_heap + INCREMENT > system_limit) {
     return NULL; // Return NULL : Request failed due to the limit
@@ -147,7 +150,7 @@ struct header *extend_heap(int num_bytes) {
   // void *new_block = sbrk(num_of_bytes_request);
   void *new_block = sbrk(INCREMENT);
 
-  if (new_block == (void *)-1) {
+  if (new_block == (void *)-1) { 
     // If sbrk fails it returns -1
     return NULL;
   }
@@ -164,7 +167,7 @@ struct header *extend_heap(int num_bytes) {
   // Updating the heap end
   // Not needed: end_of_heap = (char *)end_of_heap + INCREMENT;
   // num_of_bytes_request;
-
+ 
   size_of_heap += INCREMENT;
   return block; // The free block that is avialable to be allocated
 }
@@ -223,11 +226,11 @@ void coalesce_blocks() { // Accepts the new incoming block
  * if there is not enough space.
  */
 void *alloc(int size) {
-  if (size == 0) {
+  if (size == 0){ 
     // Negative increment of the heap
     return (struct header *)sbrk(0);
   }
-  if (size < 0) {
+  if (size < 0){
     // Requesting negativ enumber of bytes
     return NULL;
   }
@@ -243,7 +246,7 @@ void *alloc(int size) {
     // Extend heap and try to allocate space
     block = extend_heap(size_with_header);
     if (block == NULL) {
-      // Increasing the limit failed as well
+    // Increasing the limit failed as well
       return NULL;
     }
   } else {
